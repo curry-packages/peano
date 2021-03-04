@@ -9,8 +9,9 @@
     "dependencies": {
     },
     "compilerCompatibility": {
-        "pakcs": ">= 2.0.0",
-        "kics2": ">= 2.0.0"
+        "pakcs"   : ">= 2.0.0",
+        "kics2"   : ">= 2.0.0",
+        "curry2go": ">= 1.0.0"
     },
     "exportedModules": [ "Data.Nat" ],
     "source": {
