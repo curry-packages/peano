@@ -3,7 +3,7 @@
 --- some operations on this representation.
 ---
 --- @author Michael Hanus
---- @version January 2019
+--- @version December 2021
 ------------------------------------------------------------------------------
 
 module Data.Nat
@@ -16,7 +16,15 @@ import Test.Prop
 --- Thus, each natural number is constructor by a `Z` (zero)
 --- or `S` (successor) constructor.
 data Nat = Z | S Nat
- deriving (Eq,Show)
+ deriving Eq
+
+--- We show natural numbers as traditional integers.
+instance Show Nat where
+  show n = show (fromNat n)
+
+--- We read natural numbers as traditional integers.
+instance Read Nat where
+  readsPrec p s = map (\ (n,r) -> (toNat n, r)) (readsPrec p s)
 
 --- Transforms a natural number into a standard integer.
 fromNat :: Nat -> Int
@@ -96,5 +104,23 @@ leq (S x) (S y) = leq x y
 -- Property: adding a number yields always a greater-or-equal number
 leqAdd :: Nat -> Nat -> Prop
 leqAdd x y = always $ leq x (add x y)
+
+------------------------------------------------------------------------------
+
+--- Peano numbers as a `Num` instance. Since we do not represent
+--- negative numbers, computing with negative number simply fails.
+instance Num Nat where
+  x + y = add x y
+  x - y = sub x y
+  x * y = mul x y
+
+  negate x = sub Z x
+
+  abs x = x -- trivial since there are no negative numbers
+
+  signum Z = Z
+  signum (S _) = S Z
+
+  fromInt x = toNat x
 
 ------------------------------------------------------------------------------
