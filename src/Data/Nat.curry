@@ -38,7 +38,7 @@ fromNat'post _ n = n >= 0
 --- Transforms a standard integer into a natural number.
 toNat :: Int -> Nat
 toNat n | n == 0 = Z
-        | n > 0  = S (toNat (n-1))
+        | n > 0  = S (toNat (n - 1))
 
 -- Precondition: `toNat` must be called with non-negative numbers
 toNat'pre :: Int -> Bool
@@ -54,7 +54,7 @@ toFromNat n = n>=0 ==> fromNat (toNat n) -=- n
 --- Addition on natural numbers.
 add :: Nat -> Nat -> Nat
 add Z     n = n
-add (S m) n = S(add m n)
+add (S m) n = S( add m n)
 
 -- Property: addition is commutative
 addIsCommutative :: Nat -> Nat -> Prop
