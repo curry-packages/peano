@@ -2,7 +2,7 @@
     "name": "peano",
     "version": "1.1.0",
     "author": "Michael Hanus <mh@informatik.uni-kiel.de>",
-    "category": [ "Data" ],
+    "category": [ "Data", "Numeric" ],
     "synopsis": "Library defining natural numbers in Peano representation",
     "license": "BSD-3-Clause",
     "licenseFile": "LICENSE",
