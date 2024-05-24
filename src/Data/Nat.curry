@@ -54,7 +54,7 @@ toFromNat n = n>=0 ==> fromNat (toNat n) -=- n
 --- Addition on natural numbers.
 add :: Nat -> Nat -> Nat
 add Z     n = n
-add (S m) n = S( add m n)
+add (S m) n = S (add m n)
 
 -- Property: addition is commutative
 addIsCommutative :: Nat -> Nat -> Prop
