@@ -16,13 +16,16 @@ horseman m h heads feet =  heads =:= m + h  &  feet =:= 2 * m + 4 * h
 -- Some queries:
 
 -- How many men and horses have 3 heads and 8 feet?
-goal1 m h = horseman m h 3 8 -- or: (S(S(S Z))) (S(S(S(S(S(S(S(S Z))))))))
--- > goal1 m h  where m,h free
+query1 :: Nat -> Nat -> Bool
+query1 m h = horseman m h 3 8 -- or: (S(S(S Z))) (S(S(S(S(S(S(S(S Z))))))))
+-- > query1 m h  where m,h free
 
 -- How many men and horses have 8 heads and 20 feet?
-goal2 m h = horseman m h 8 20 --(toNat 8) (toNat 20)
--- > goal2 m h  where m,h free
+query2 :: Nat -> Nat -> Bool
+query2 m h = horseman m h 8 20 --(toNat 8) (toNat 20)
+-- > query2 m h  where m,h free
 
--- Relation between men and horses and feets with two heads:
-goal3 m h hd = horseman m h 2 hd
--- > goal3 m h hd  where m,h,hd free
+-- Relation between men and horses and feet with two heads:
+query3 :: Nat -> Nat -> Nat -> Bool
+query3 m h feet = horseman m h 2 feet
+-- > query3 m h feet  where m,h,feet free
