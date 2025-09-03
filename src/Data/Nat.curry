@@ -1,32 +1,38 @@
 ------------------------------------------------------------------------------
---- Library defining natural numbers in Peano representation and
---- some operations on this representation.
----
---- @author Michael Hanus
---- @version December 2021
+-- | Author : Michael Hanus
+--   Version: December 2021
+--
+-- Library defining natural numbers in Peano representation and
+-- some operations on this representation.
 ------------------------------------------------------------------------------
 
-module Data.Nat
-  ( Nat(..), fromNat, toNat, add, sub, mul, leq
-  ) where
+module Data.Nat (
+ -- * Data type for natural numbers
+ Nat(..),
+ -- * Conversion operations
+ fromNat, toNat,
+ -- * Arithmetic operations
+ add, sub, mul,
+ -- * Comparison predicates
+ leq
+ ) where
 
 import Test.Prop
 
---- Natural numbers defined in Peano representation.
---- Thus, each natural number is constructor by a `Z` (zero)
---- or `S` (successor) constructor.
-data Nat = Z | S Nat
+-- | Natural numbers are defined in Peano representation.
+data Nat = Z     -- ^ The zero constructor
+         | S Nat -- ^ The successor constructor
  deriving Eq
 
---- We show natural numbers as traditional integers.
+-- We show natural numbers as traditional integers.
 instance Show Nat where
   show n = show (fromNat n)
 
---- We read natural numbers as traditional integers.
+-- We read natural numbers as traditional integers.
 instance Read Nat where
   readsPrec p s = map (\ (n,r) -> (toNat n, r)) (readsPrec p s)
 
---- Transforms a natural number into a standard integer.
+-- | Transforms a natural number into a standard integer.
 fromNat :: Nat -> Int
 fromNat Z     = 0
 fromNat (S n) = 1 + fromNat n
@@ -35,7 +41,7 @@ fromNat (S n) = 1 + fromNat n
 fromNat'post :: Nat -> Int -> Bool
 fromNat'post _ n = n >= 0
 
---- Transforms a standard integer into a natural number.
+-- | Transforms a standard integer into a natural number.
 toNat :: Int -> Nat
 toNat n | n == 0 = Z
         | n > 0  = S (toNat (n - 1))
@@ -51,7 +57,7 @@ fromToNat n = toNat (fromNat n) -=- n
 toFromNat :: Int -> Prop
 toFromNat n = n>=0 ==> fromNat (toNat n) -=- n
 
---- Addition on natural numbers.
+-- | Addition on natural numbers.
 add :: Nat -> Nat -> Nat
 add Z     n = n
 add (S m) n = S (add m n)
@@ -64,7 +70,7 @@ addIsCommutative x y = add x y -=- add y x
 addIsAssociative :: Nat -> Nat -> Nat -> Prop
 addIsAssociative x y z = add (add x y) z -=- add x (add y z)
 
---- Subtraction defined by reversing addition.
+-- | Subtraction defined by reversing addition.
 sub :: Nat -> Nat -> Nat
 sub x y | add y z == x  = z where z free
 
@@ -75,7 +81,7 @@ subAddL x y = sub (add x y) x -=- y
 subAddR :: Nat -> Nat -> Prop
 subAddR x y = sub (add x y) y -=- x
 
---- Multiplication on natural numbers.
+-- | Multiplication on natural numbers.
 mul :: Nat -> Nat -> Nat
 mul Z     _ = Z
 mul (S m) n = add n (mul m n)
@@ -95,7 +101,7 @@ distMulAddL x y z = mul x (add y z) -=- add (mul x y) (mul x z)
 distMulAddR :: Nat -> Nat -> Nat -> Prop
 distMulAddR x y z = mul (add y z) x -=- add (mul y x) (mul z x)
 
--- less-or-equal predicated on natural numbers:
+-- | The less-or-equal predicate on natural numbers.
 leq :: Nat -> Nat -> Bool
 leq Z     _     = True
 leq (S _) Z     = False
@@ -107,8 +113,8 @@ leqAdd x y = always $ leq x (add x y)
 
 ------------------------------------------------------------------------------
 
---- Peano numbers as a `Num` instance. Since we do not represent
---- negative numbers, computing with negative number simply fails.
+-- Peano numbers as a `Num` instance. Since we do not represent
+-- negative numbers, computing with negative number simply fails.
 instance Num Nat where
   x + y = add x y
   x - y = sub x y
