@@ -1,9 +1,9 @@
 ------------------------------------------------------------------------------
--- | Author : Michael Hanus
---   Version: December 2021
+-- | Library defining natural numbers in Peano representation and
+--   some operations on this representation.
 --
--- Library defining natural numbers in Peano representation and
--- some operations on this representation.
+--   Author : Michael Hanus
+--   Version: December 2021
 ------------------------------------------------------------------------------
 
 module Data.Nat (
